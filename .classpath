@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="F:/Softwares/components/httpclient-4.5.1.jar"/>
+	<classpathentry kind="lib" path="F:/Softwares/components/javax.servlet-1.0.0.jar"/>
+	<classpathentry kind="lib" path="F:/Softwares/components/servlet-api.jar"/>
+	<classpathentry kind="lib" path="F:/Softwares/components/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="F:/Softwares/components/gson-2.2.2.jar"/>
+	<classpathentry kind="lib" path="F:/Softwares/components/ojdbc14.jar"/>
+	<classpathentry kind="lib" path="F:/Softwares/components/mysql-connector-java-5.1.34.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

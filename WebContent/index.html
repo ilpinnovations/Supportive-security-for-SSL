@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>RSA</title>
+</head>
+<body>
+<script language="JavaScript" type="text/javascript" src="jsbn.js"></script>
+<script language="JavaScript" type="text/javascript" src="prng4.js"></script>
+<script language="JavaScript" type="text/javascript" src="rng.js"></script>
+<script language="JavaScript" type="text/javascript" src="rsa.js"></script>
+<script language="JavaScript" type="text/javascript" src="base64.js"></script>
+<script language="JavaScript">
+function do_encrypt() 
+{
+		var before = new Date();
+		var rsa = new RSAKey();
+		rsa.setPublic(document.rsatest.n.value, document.rsatest.e.value);
+		var res = rsa.encrypt(document.rsatest.plaintext.value);
+		var after = new Date();
+		if(res) 
+		{
+			document.getElementById("encrypted").value = linebrk(res, 64);
+		//document.rsatest.ciphertext.value = linebrk(res, 64);
+		//document.rsatest.cipherb64.value = linebrk(hex2b64(res), 64);
+		//document.rsatest.status.value = "Time: " + (after - before) + "ms";
+		}
+}
+	function encrypt(username)
+	{
+		//Taking the input to another variable
+		var teststring = username;
+		var bytes = [];
+		
+		
+		//Converting input String to bytes
+		for (var i = 0; i < teststring.length; ++i) {
+		    bytes.push(teststring.charCodeAt(i));
+		}
+		//alert("String in Bytes is: " + bytes.join(''));
+		
+		
+		 var byteArray = new Uint16Array(1);
+    	window.crypto.getRandomValues(byteArray);
+
+    	// Convert to decimal
+    	var randomNum =  byteArray[0].toString();
+
+    	// Get number in range
+    	//randomNum = Math.floor(randomNum * (max - min + 1)) + min;
+		
+
+    	
+		
+		alert ("Crypto" + randomNum);
+		
+		
+		
+		//Converting Bytes to String
+		var name="";
+		name += String.fromCharCode.apply(String, bytes);
+		alert("name : " + name);
+		
+		
+		
+		
+		//Showing the encrypted value
+		document.getElementById("encrypted").value = bytes.join('');
+		
+	}
+</script>
+<form>
+<table>
+	<tr>
+		<td>User Name </td>
+		<td>: <input type="text" name="username" id="username" onchange="encrypt(this.form.username.value)"></td>
+		<td>Encrypted value </td>
+		<td>: <input type="text" size="70" data-encrypted-name = "encrypted" id="encrypted" readonly="readonly"></td>
+	</tr>
+	
+	<tr>
+		<td>Password </td>
+		<td>: <input type="password" name="password"></td>		
+	</tr>
+</table>
+</form>
+</body>
+</html>
