@@ -67,9 +67,9 @@ public class server extends HttpServlet {
 			System.out.println("entered client call");
 			int bitLength = 2048;
 			SecureRandom r = new SecureRandom();
-			int b = bitLength>>1;
-		    BigInteger p_server = new BigInteger(bitLength / 2, 100, r);
-		    BigInteger q_server = new BigInteger(bitLength / 2, 100, r);
+			
+		    BigInteger p_server = new BigInteger(bitLength/2, 100, r);
+		    BigInteger q_server = new BigInteger(bitLength/2, 100, r);
 		    BigInteger n_server = p_server.multiply(q_server);
 		    BigInteger m_server = (p_server.subtract(BigInteger.ONE)).multiply(q_server.subtract(BigInteger.ONE));
 		    BigInteger e_server = new BigInteger("17");
@@ -88,7 +88,14 @@ public class server extends HttpServlet {
 		    //printing server related data to console
 		   
 		    
-		    String plain = "akhil";
+		    //String plain = "560e5408b023366c91d410ced068ddda0a5831afe5e266204149b4f81a82f7ad58ca91aac17b4ac3995a1d96a5fd5d02b276de5b30202de7eaf8cbfda1421ce3";
+//		    RSA rs =new RSA();
+//		    byte [] encrypted = rs.encrypt(plain.getBytes(), e_server, n_server);
+//		    System.out.println("encrypted##@@$$  :" +encrypted);
+//		    byte [] decrypted = rs.decrypt(encrypted, d_server, n_server);
+//		    System.out.println("decrypted##@@$$  :" + decrypted);
+//		   // System.out.println("Decrypting Bytes##$$@@  : " + bytesToString(decrypted));
+//	        System.out.println("Decrypted String##$$@@  : " + new String(decrypted));
 		   // byte [] encrypted = 
 		    
 		    String e_string = e_server.toString();
@@ -207,6 +214,12 @@ public class server extends HttpServlet {
 			String server_coeff = null;
 			//System.out.println("Calling services class");
 			ArrayList<String> serverInfo = serv.getPrivateKey(server_public_key,server_modulo);
+			if(serverInfo.size() == 0)
+			{
+				System.out.println("Invalid server key..!");
+			}
+			else
+			{
 			//System.out.println("Called services class");
 			int i = 0;
 			for(i=0; i<serverInfo.size();i++)
@@ -219,6 +232,7 @@ public class server extends HttpServlet {
 				server_dmq1 = serverInfo.get(4);
 				server_coeff = serverInfo.get(5);
 			}
+			
 //			System.out.println("recieved public key :" + server_public_key);
 //			System.out.println("recieved private key :" + server_private_key);
 //			System.out.println("recieved modulo :" + server_modulo);
@@ -239,14 +253,14 @@ public class server extends HttpServlet {
 			BigInteger d_server = new BigInteger(server_private_key, 16);
 			
 			
-			System.out.println("recieved modulus (BIG INT)      :" + n_server);
-			System.out.println("recieved public key (BIG INT    :" + e_server);
-			System.out.println("recieved private key (BIG INT   :" + d_server);
-			System.out.println("recieved P                      :" + p_server);
-			System.out.println("recieved Q                      :" + q_server);
-			System.out.println("recieved dmp1                   :" + dmp1_server);
-			System.out.println("recieved dmq1                   :" + dmq1_server);
-			System.out.println("recieved ceff                   :" + coeff_server);
+			System.out.println("recieved modulus (BIG INT)    :" + n_server);
+			System.out.println("recieved public key (BIG INT  :" + e_server);
+			System.out.println("recieved private key (BIG INT :" + d_server);
+			System.out.println("recieved P                    :" + p_server);
+			System.out.println("recieved Q                    :" + q_server);
+			System.out.println("recieved dmp1                 :" + dmp1_server);
+			System.out.println("recieved dmq1                 :" + dmq1_server);
+			System.out.println("recieved ceff                 :" + coeff_server);
 			
 			
 			
@@ -261,29 +275,25 @@ public class server extends HttpServlet {
 			
 			
 			//#2
+			RSA rsa1 = new RSA();
+			BigInteger m1 = rsa1.RSADoPrivate(c1, n_server, p_server, q_server, d_server, dmp1_server, dmq1_server, coeff_server);			
+			System.out.println("m1 :    " + m1);
 			
-			BigInteger decrypted = c1.modPow(d_server, n_server);
-			System.out.println("converted " + decrypted);
-			byte[] ds = decrypted.toByteArray();
-			System.out.println("decrypted bytes :" +ds);
-			String plain = new String(ds);
-			System.out.println("decrypted message is##### :" + plain);
-//			RSA rsa1 = new RSA();
-//			BigInteger m1 = rsa1.RSADoPrivate(c1, n_server, p_server, q_server, d_server, dmp1_server, dmq1_server, coeff_server);
+			//#3			
+			String result1 = rsa1.pkcs1unpad3(m1, (n_server.bitLength()+7)>>3, ciphertext  );
 			
-			//System.out.println("m1 :    " + m1);
-			//#3
-//			byte [] b1 = m1.toByteArray();
-//			System.out.println("byte array length :"+b1.length);
-//			int n1 = (n_server.bitLength()+7)>>3;
-			
-			//String result1 = rsa1.pkcs1unpad2(m1, (n_server.bitLength()+8)>>3  );
-			
-			//System.out.println("server decryted value :" + result1);
-			
+			System.out.println("server decryted value :" + result1);
+			if(result1.equals(ciphertext)){
+				System.out.println("First decryption is successfully completed");
+			}
+			else
+			{
+				System.out.println("First decryption is unsuccessfull");
+			}
 			
 			//Trying to store string value to BigInteger
 			//Hexadecimal string value is changing to decimal BigInteger for RSA decryption.
+			//BigInteger cpr = new BigInteger(ciphertxt,16);
 			BigInteger n = new BigInteger(modulus, 16);
 			BigInteger p = new BigInteger(P, 16);
 			BigInteger q = new BigInteger(Q, 16);
@@ -293,10 +303,11 @@ public class server extends HttpServlet {
 			BigInteger dmq1 = new BigInteger(DQ,16);
 			BigInteger coeff = new BigInteger(COEFF,16);
 			System.out.println("public exponent : "+ publicExponent);
+			System.out.println("");
 			//Client Data Decryption
 
 			// #1
-			BigInteger c = new BigInteger(ciphertext, 16);
+			BigInteger c = new BigInteger(result1, 16);
 			System.out.println("Converted bginteger value :" + c);
 			
 			
@@ -370,6 +381,7 @@ public class server extends HttpServlet {
 //		{
 //			System.out.println("Action is null");
 //		}
+		}
 	}//End of doPost
 
 }

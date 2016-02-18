@@ -264,7 +264,7 @@ $(document).ready(function()
 
 
   <body onLoad='do_init();'>
-    <h1>RSA </h1>
+    <h3>RSA Implementations </h3>
     
    
 <!-- <div id="status"><input type="text" name="status" readonly="readonly"></div> -->
@@ -275,54 +275,15 @@ $(document).ready(function()
 
 <form name="rsatest" id="rsatest" action="server" method="post">
 
-
-Server Public Key:<br>
-<textarea name="server_key" id="server_key" rows=4 cols=70></textarea><br>
-Server Modulo:<br>
-<textarea name = "server_modulo" id = "server_modulo" rows = 4 cols = 70></textarea><br>
-
-Plaintext (string):<br>
-<input type="text" required name="plaintext" size=60><br>
-<input type="button" value="encrypt" onClick="do_encrypt();"><p>
-Ciphertext (hex):<br>
-<textarea name="ciphertext" rows=4 cols=70></textarea><br>
-<input type="button" value="decrypt" onClick="do_decrypt();"><p>
-Decrypted Plaintext (string):<br>
-<input name="decrypted" type="text" size=60><p>
-Status:<br>
-
-
-Doubly Encrypted Data : <br>
-<textarea name="double_encryption" id = "double_encryption" rows=4 cols=70></textarea><br>
-<input type="button" value="Double Encryption" onClick="do_encryptWithServerKey();"><p>
-
-
-<input name="status" type="text" size=60><p>
-Connection Status:<br>
-<input name="server_status" id="server_status" type="text" size=60><p><br>
-
-
- <input type="button" name="keyexchange" id="keyexchange" value = "Return"> 
-
-
-<hr>
-<!-- <a href="server?action=keyexchange"> Generate</a>  -->
-
-
-<h2>Key Generation</h2><p>
-<!-- <input type="button" value="1024 bit" onClick='set_1024f4();'>
-<!-- <input type="button" value="1024 bit (e=3)" onClick='set_1024e3();'> -->
-
-
-<!-- <input type="button" value="512 bit" onClick='set_512f4();'>
-<!-- <input type="button" value="512 bit (e=3)" onClick='set_512e3();'> -->
-
+<h3>Key Generation</h3><p>
 &nbsp; <input type="button" value="Generate" onClick='do_genrsa();'>
 <!--  -->bits = <input name="bits" type="text" value="512" size=10>
 <p>
+Status:<br>
+<input name="status" type="text" size=60><p>
 Modulus (hex):<br>
 <textarea name="n" type="text" rows=4 cols=70></textarea><p>
-Public exponent (Self given)<br>
+Public exponent <br>
 <input name="e" type="text" value="3" size=20><p>
 Private exponent (hex):<br>
 <textarea name="d" type="text" rows=4 cols=70></textarea><p>
@@ -336,8 +297,42 @@ D mod (Q-1) :<br>
 <textarea name="dmq1" type="text" rows=2 cols=70></textarea><p>
 1/Q mod P :<br>
 <textarea name="coeff" type="text" rows=2 cols=70></textarea>
-<input type="hidden" name=action value="server">
-<input type="submit" value = "submit me">
+<input type="hidden" name=action value="server"><br><br>
+
+
+<h3>Client Encryption</h3>
+Plaintext (string):<br>
+<input type="text" required name="plaintext" size=60><br>
+<input type="button" value="encrypt" onClick="do_encrypt();"><p>
+Ciphertext (hex):<br>
+<textarea name="ciphertext" rows=4 cols=70></textarea><br>
+<input type="button" value="decrypt" onClick="do_decrypt();"><p>
+Decrypted Plaintext (string):<br>
+<input name="decrypted" type="text" size=60><p>
+
+
+
+<hr>
+<!-- <a href="server?action=keyexchange"> Generate</a>  -->
+
+
+
+
+<h3> Returning server key pair</h3>
+<input type="button" name="keyexchange" id="keyexchange" value = "Return"> 
+Server Public Key:<br>
+<textarea name="server_key" id="server_key" rows=4 cols=70></textarea><br>
+Server Modulo:<br>
+<textarea name = "server_modulo" id = "server_modulo" rows = 4 cols = 70></textarea><br>
+
+
+<h3>Client encryption using server key</h3>
+Doubly Encrypted Data : <br>
+<textarea name="double_encryption" id = "double_encryption" rows=4 cols=70></textarea><br>
+<input type="button" value="Encrypt with server key" onClick="do_encryptWithServerKey();"><p>
+
+
+<input type="submit" value = "Send to Server">
 </form>
   </body>
 </html>

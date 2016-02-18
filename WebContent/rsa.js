@@ -71,7 +71,7 @@ function pkcs1pad2server(s) {
 	for (var i = 0; i < s.length; ++i) {
 	    ba.push(s.charCodeAt(i));
 	}
-	alert(ba);
+	//alert(ba);
   return new BigInteger(ba);
 }
 
@@ -98,7 +98,7 @@ function RSASetPublic(N,E) {
   if(N != null && E != null && N.length > 0 && E.length > 0) {
     this.n = parseBigInt(N,16);
     this.e = parseInt(E,16);
-    alert("converted value :" + this.e);
+   // alert("converted value :" + this.e);
   }
   else
     alert("Invalid RSA public key");
@@ -114,7 +114,7 @@ function RSAEncrypt(text) {
   var m = pkcs1pad2(text,(this.n.bitLength()+7)>>3);
   if(m == null) return null;
   var c = this.doPublic(m);
-  alert("BigInteger value :" + c);
+  //alert("BigInteger value :" + c);
   if(c == null) return null;
   var h = c.toString(16);
   if((h.length & 1) == 0) return h; else return "0" + h;
@@ -125,7 +125,7 @@ function ServerRSAEncrypt(text) {
 	  if(m == null) return null;
 	//var ba = new Array();
 	  var c = this.doPublic(m);
-	  alert("BigInteger value## :" + c);
+	 // alert("BigInteger value## :" + c);
 	  if(c == null) return null;
 	  var h = c.toString(16);
 	  if((h.length & 1) == 0) return h; else return "0" + h;

@@ -21,17 +21,17 @@ public class RSA {
 	//Unpadding the received cipher text
 	public String pkcs1unpad2(BigInteger d,int n) {
 		  byte [] b = d.toByteArray();
-		  System.out.println("byte array length :"+b.length);
-		  System.out.println("value of n :" +n);
+		 // System.out.println("byte array length :"+b.length);
+		 // System.out.println("value of n :" +n);
 		  int i = 0;
 		  while(i < b.length && b[i] == 0) ++i;
 		  System.out.println("value of i:" +i);
 		  if(b.length-i != n-1 || b[i] != 2){
 		   // return null;
-			  System.out.println("inside if####");
+			  //System.out.println("inside if####");
 		  }
 		  ++i;
-		  System.out.println("outside if###");
+		  //System.out.println("outside if###");
 		  while(b[i] != 0)
 		    if(++i >= b.length) return null;
 		  System.out.println("value of i :" + i);
@@ -54,6 +54,55 @@ public class RSA {
 		}
 	
 	
+	public String pkcs1unpad3(BigInteger d,int n, String rst) {
+		char [] c = rst.toCharArray();
+		String ret = "";
+		int i = 0;
+		if(++i >= c.length){
+			return null;
+		}
+		int e = c[i];
+		if(i > c.length){
+			
+		    if(e < 128) { // utf-8 decode
+		      ret += String.valueOf(((char)e & 15 << 12) | (char) ((c[i+1] & 63) <<6) | (char) (c[i+2] & 63));
+		    }
+		    else if((e > 191) && (e < 224)) {
+		      ++i;
+		    }
+		}
+		else if(i>c.length-1)
+		{
+			ret += String.valueOf((char)e & 15 << 12);
+		}
+		else {
+			ret = new String(c);
+		}
+		return ret;
+	}
+	
+	
+	
+	
+	 public byte[] encrypt(byte[] message, BigInteger e, BigInteger N)
+	    {
+	        return (new BigInteger(message)).modPow(e, N).toByteArray();
+	    }
+	 
+	 public byte[] decrypt(byte[] message, BigInteger d, BigInteger N)
+	    {
+	        return (new BigInteger(message)).modPow(d, N).toByteArray();
+	    }
+	 
+	 private static String bytesToString(byte[] encrypted)
+	    {
+	        String test = "";
+	        for (byte b : encrypted)
+	        {
+	            test += Byte.toString(b);
+	        }
+	        return test;
+	    }
 	
 	//############################################################
 	
