@@ -5,6 +5,44 @@
 <html>
   <head>
     <title>RSA</title>
+    <style>
+    	.hidden-component
+    	{
+    		display: none;
+    	}
+    	.row
+    	{
+    		width:100%;
+    	}
+    </style>
+    <!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+	
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  	<script>
+  		$(document).ready(function(){
+  			$('#hide-component').attr('disabled',true);
+  			$('#view-component').click(function(){
+//	  			alert("sdsds");
+	  			$('.hidden-component').css('display','block');
+	  			$('#view-component').attr('disabled',true);
+	  			$('#hide-component').attr('disabled',false);
+	  		})
+	  		$('#hide-component').click(function(){
+//   	  			alert("sdsds");
+  	  			$('.hidden-component').css('display','none');
+	  			$('#view-component').attr('disabled',false);
+	  			$('#hide-component').attr('disabled',true);
+  	  		})
+  		});
+  	</script>
+ 	
   </head>
 
 <script language="JavaScript" type="text/javascript" src="jsbn.js"></script>
@@ -13,7 +51,6 @@
 <script language="JavaScript" type="text/javascript" src="rng.js"></script>
 <script language="JavaScript" type="text/javascript" src="rsa.js"></script>
 <script language="JavaScript" type="text/javascript" src="rsa2.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script language="JavaScript">
 
 function set_512e3() {
@@ -195,14 +232,10 @@ $(document).ready(function()
 	       type:'get',
 	       cache:false,
 	       success:function(responseText){
-	          //alert(responseText);
 	          dataType: 'json';
-		    	//alert(responseText);
 		    	var json = jQuery.parseJSON(responseText);
-		    	//alert( json.n );
 		    	document.getElementById("server_key").value = json.e;
 		    	document.getElementById("server_modulo").value = json.n;
-	          //$('#somediv').text(responseText); 
 	       },
 	       error:function(){
 	         alert('error');
@@ -211,60 +244,13 @@ $(document).ready(function()
 	);
 	}
 	);
-	
-	
-	
-	/*$("#keyexchange").click(function() 
-	{
-		//alert("scscs");
-	    $.get("server", function(responseText) 
-	    { 
-	    	//###################################
-	    	
-	    	dataType: 'json';
-	    	//alert(responseText);
-	    	var json = jQuery.parseJSON(responseText);
-	    	//alert( json.n );
-	    	document.getElementById("server_key").value = json.e;
-	    	document.getElementById("server_modulo").value = json.n;
-	    	
-	    });
-	});*/
-	
-	
-	
-	
-	
-	
-	
-	
 });
-
-/*$("#keyexchange").click(function(){
-    $.ajax({
-       url:'server',
-       data:{action:'servercall'},
-       type:'get',
-       cache:false,
-       success:function(data){
-          alert(data);
-          //$('#somediv').text(responseText); 
-       },
-       error:function(){
-         alert('error');
-       }
-    }
-);
-}
-);*/
-
 
 </script>
 
 
 
   <body onLoad='do_init();'>
-    <h3>RSA Implementations </h3>
     
    
 <!-- <div id="status"><input type="text" name="status" readonly="readonly"></div> -->
@@ -272,67 +258,127 @@ $(document).ready(function()
 
 <!-- form starting##################### -->
 
+<nav class="navbar navbar-default navbar-inverse">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">RSA Implementation</a>
+    </div>
+    <ul class="nav navbar-nav">
+<!--       <li class="active"><a href="#">Home</a></li> -->
+<!--       <li><a href="#">Page 1</a></li> -->
+<!--       <li><a href="#">Page 2</a></li>  -->
+<!--       <li><a href="#">Page 3</a></li>  -->
+    </ul>
+  </div>
+</nav>
+<div class="row">
+	<div class="container">
+		<form name="rsatest" id="rsatest" action="server" method="post" role="form">
+			<h3 class="col-md-12">Key Generation</h3>
+			
+			<div class="form-group col-md-12">
+				<input class="btn btn-success" type="button" value="Generate" onClick='do_genrsa();'>
+			</div>
+			<div class="form-group col-md-6">
+				<label>Bits</label>
+				<input class="form-control" name="bits" type="text" value="512" size=10>
+			</div>
+			<div class="form-group col-md-6">
+				<label>Status</label>
+				<input class="form-control" name="status" type="text" size=60>
+			</div>
+			<div class="form-group col-md-12">
+				<label>Modulus (hex)</label>
+				<textarea class="form-control" name="n" type="text" rows=4 cols=70></textarea>
+			</div>
+			<div class="form-group col-md-12">
+				<label>Public exponent</label>
+				<input class="form-control" name="e" type="text" value="3" size=20>
+			</div>
+			<div class="form-group col-md-12">
+				<label>Private exponent (hex)</label>
+				<textarea class="form-control" name="d" type="text" rows=4 cols=70></textarea>
+			</div>
+			<div class="form-group col-md-12">
+				<input type="button" class="btn btn-warning" id="view-component" value="View details">
+				<input type="button" class="btn btn-warning" id="hide-component" value="Hide details">
+			</div>
+			
+			<div class="form-group col-md-6 hidden-component">
+				<label>P</label>
+				<textarea class="form-control" name="p" type="text" rows=4 cols=70></textarea>
+			</div>
+			<div class="form-group col-md-6 hidden-component">
+				<label>Q</label>
+				<textarea class="form-control" name="q" type="text" rows=4 cols=70></textarea>
+			</div>
+			<div class="form-group col-md-6 hidden-component">
+				<label>D mod (P-1)</label>
+				<textarea class="form-control" name="dmp1" type="text" rows=4 cols=70></textarea>
+			</div>
+			<div class="form-group col-md-6 hidden-component">
+				<label>D mod (Q-1)</label>
+				<textarea class="form-control" name="dmq1" type="text" rows=4 cols=70></textarea>
+			</div>
+			<div class="form-group col-md-12 hidden-component">
+				<label>1/Q mod P</label>
+				<textarea class="form-control" name="coeff" type="text" rows=4 cols=70></textarea>
+			</div>
+			<div class="form-group col-md-12">
+				<input type="hidden" name=action value="server">
+			</div>
 
-<form name="rsatest" id="rsatest" action="server" method="post">
-
-<h3>Key Generation</h3><p>
-&nbsp; <input type="button" value="Generate" onClick='do_genrsa();'>
-<!--  -->bits = <input name="bits" type="text" value="512" size=10>
-<p>
-Status:<br>
-<input name="status" type="text" size=60><p>
-Modulus (hex):<br>
-<textarea name="n" type="text" rows=4 cols=70></textarea><p>
-Public exponent <br>
-<input name="e" type="text" value="3" size=20><p>
-Private exponent (hex):<br>
-<textarea name="d" type="text" rows=4 cols=70></textarea><p>
-P :<br>
-<textarea name="p" type="text" rows=2 cols=70></textarea><p>
-Q :<br>
-<textarea name="q" type="text" rows=2 cols=70></textarea><p>
-D mod (P-1) :<br>
-<textarea name="dmp1" type="text" rows=2 cols=70></textarea><p>
-D mod (Q-1) :<br>
-<textarea name="dmq1" type="text" rows=2 cols=70></textarea><p>
-1/Q mod P :<br>
-<textarea name="coeff" type="text" rows=2 cols=70></textarea>
-<input type="hidden" name=action value="server"><br><br>
-
-
-<h3>Client Encryption</h3>
-Plaintext (string):<br>
-<input type="text" required name="plaintext" size=60><br>
-<input type="button" value="encrypt" onClick="do_encrypt();"><p>
-Ciphertext (hex):<br>
-<textarea name="ciphertext" rows=4 cols=70></textarea><br>
-<input type="button" value="decrypt" onClick="do_decrypt();"><p>
-Decrypted Plaintext (string):<br>
-<input name="decrypted" type="text" size=60><p>
-
-
-
-<hr>
-<!-- <a href="server?action=keyexchange"> Generate</a>  -->
-
-
-
-
-<h3> Returning server key pair</h3>
-<input type="button" name="keyexchange" id="keyexchange" value = "Return"> 
-Server Public Key:<br>
-<textarea name="server_key" id="server_key" rows=4 cols=70></textarea><br>
-Server Modulo:<br>
-<textarea name = "server_modulo" id = "server_modulo" rows = 4 cols = 70></textarea><br>
-
-
-<h3>Client encryption using server key</h3>
-Doubly Encrypted Data : <br>
-<textarea name="double_encryption" id = "double_encryption" rows=4 cols=70></textarea><br>
-<input type="button" value="Encrypt with server key" onClick="do_encryptWithServerKey();"><p>
-
-
-<input type="submit" value = "Send to Server">
-</form>
+			<h3 class="col-md-12">Client Encryption</h3>
+			<div class="form-group col-md-12">
+				<label>Plaintext (string)</label>
+				<input class="form-control" type="text" required name="plaintext" size=60>
+				<input class="btn btn-info" type="button" value="Encrypt" onClick="do_encrypt();"><p>
+			</div>
+			<div class="form-group col-md-12">
+				<label>Ciphertext (string)</label>
+				<input class="form-control" type="text" required name="ciphertext" size=60>
+<!-- 				<input class="btn btn-info" type="button" value="Decrypt" onClick="do_decrypt();"><p> -->
+			</div>
+<!-- 			<div class="form-group col-md-12"> -->
+<!-- 				<label>Decrypted Plaintext (string)</label> -->
+<!-- 				<input class="form-control" name="decrypted" type="text" size=60> -->
+<!-- 			</div> -->
+			
+			
+			<h3 class="col-md-12">Returning server key pair</h3>
+			<hr>
+			<div class="form-group col-md-12">
+				<input class="btn btn-info" type="button" name="keyexchange" id="keyexchange" value = "Return"> 
+			</div>
+			<div class="form-group col-md-12">
+				<label>Server Public Key</label>
+				<textarea class="form-control" name="server_key" id="server_key" rows=4 cols=70></textarea>
+			</div>
+			<div class="form-group col-md-12">
+				<label>Server Modulo</label>
+				<textarea class="form-control" name = "server_modulo" id = "server_modulo" rows = 4 cols = 70></textarea>
+			</div>
+			
+			
+	<!-- <a href="server?action=keyexchange"> Generate</a>  -->
+	
+			<h3 class="col-md-12">Client encryption using server key</h3>
+			<div class="form-group col-md-12">
+				<label>Doubly Encrypted Data</label>
+				<textarea class="form-control" name="double_encryption" id = "double_encryption" rows=4 cols=70></textarea>
+			</div>
+			<div class="form-group col-md-12">
+				<input type="button" class="btn btn-info" value="Encrypt with server key" onClick="do_encryptWithServerKey();">
+				<input class="btn btn-success" type="submit" value = "Send to Server">
+			</div>
+	
+		</form>
+	</div>
+</div>
+<div class="row">
+	<div class="container-fluid">
+		<div class="jumbotron" style="margin-bottom:0px;"></div>
+	</div>
+</div>
   </body>
 </html>
